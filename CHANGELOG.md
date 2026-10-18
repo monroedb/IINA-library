@@ -12,3 +12,9 @@
 
 - Protected last known playback position on IINA window close.
 - Persistent Continue Watching and Resume; existing library UI and filters.
+
+## v0.13.0 — Public beta readiness
+
+- Add TMDB official logo and attribution in About & Credits.
+- Configure GitHub plugin installation and auto-update metadata.
+- Add improved README, screenshot and release notes.

@@ -148,6 +148,8 @@ Bug reports, feature suggestions, and pull requests are welcome!
 
 **This product uses the TMDB API but is not endorsed or certified by TMDB.**
 
+The plugin displays an [official unmodified TMDB logo](https://www.themoviedb.org/about/logos-attribution) in **Settings & advanced tools → About & Credits**. The logo is loaded from TMDB’s website and requires an internet connection; attribution text remains visible offline.
+
 IINA Library is an independent, unofficial community plugin and is not affiliated with or endorsed by the IINA project. IINA and TMDB names, logos, and media artwork belong to their respective owners. The source-code license below does not cover third-party media or trademarks.
 
 ## License

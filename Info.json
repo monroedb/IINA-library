@@ -15,7 +15,8 @@
   ],
   "allowedDomains": [
     "api.themoviedb.org",
-    "image.tmdb.org"
+    "image.tmdb.org",
+    "www.themoviedb.org"
   ],
   "ghRepo": "monroedb/IINA-library",
   "ghVersion": 13
