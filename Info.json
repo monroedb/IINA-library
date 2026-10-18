@@ -1,0 +1,22 @@
+{
+  "name": "IINA Library",
+  "identifier": "com.iinalibrary.prototype",
+  "version": "0.13.0",
+  "author": {
+    "name": "monroedb",
+    "url": "https://github.com/monroedb/IINA-library"
+  },
+  "description": "Beautiful local movie and TV library for IINA, with TMDB metadata, native playback and Continue Watching.",
+  "entry": "main.js",
+  "globalEntry": "global.js",
+  "permissions": [
+    "file-system",
+    "network-request"
+  ],
+  "allowedDomains": [
+    "api.themoviedb.org",
+    "image.tmdb.org"
+  ],
+  "ghRepo": "monroedb/IINA-library",
+  "ghVersion": 13
+}

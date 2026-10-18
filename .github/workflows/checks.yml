@@ -1,0 +1,15 @@
+name: Code checks
+on: [push, pull_request]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check global.js
+      - run: node --check main.js
+      - run: node tests/playback.test.js
+      - run: node tests/cache.test.js
+      - run: node -e "const i=require('./Info.json'); if(!i.ghRepo||!i.ghVersion||!i.entry||!i.globalEntry) process.exit(1)"

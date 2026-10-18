@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IINA Library</title>
+<style>
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",sans-serif;font-synthesis:none;--bg:#0c0d11;--surface:#191a20;--raised:#24252d;--sub:#b5b3c1;--accent:#afa3ff;--line:#ffffff16;--ink:#f5f3fa}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink)}body{background:radial-gradient(ellipse 100% 46% at 67% -14%,#2b2840 0%,transparent 76%),var(--bg);font-size:14px}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid transparent;border-radius:11px;background:var(--accent);color:#171420;font-weight:650;padding:10px 15px;transition:filter .15s,transform .15s}button:hover{filter:brightness(1.09)}button:active{transform:scale(.985)}button:disabled{opacity:.48;cursor:not-allowed}.secondary{background:#ffffff12;border-color:#ffffff0b;color:#f2f0fa}.ghost{background:transparent;color:#c7c5d0}.sm{font-size:12px;padding:8px 11px}.round{width:37px;height:37px;padding:0;display:grid;place-items:center;border-radius:50%}.muted{color:var(--sub)}.tiny{font-size:12px}h1,h2,h3,p{margin-top:0}p{line-height:1.6;color:#b8b6c3}input,select,textarea{background:#252630;color:var(--ink);border:1px solid #ffffff24;border-radius:10px;padding:11px 13px;min-width:0}input:focus,select:focus,textarea:focus{outline:2px solid #a99bff80;outline-offset:1px}a{color:#c4bbff}header{display:flex;justify-content:space-between;align-items:center;padding:21px 32px;border-bottom:1px solid #ffffff10;gap:16px;position:sticky;top:0;background:#111117e8;backdrop-filter:blur(20px);z-index:5;padding-top:40px;padding-bottom:19px;padding-left:96px;min-height:99px}.brand{font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:650;letter-spacing:-.35px}.brand b{color:var(--accent);font-weight:650}.brand small{color:#868596;font-size:11px;font-weight:500;letter-spacing:0;margin-left:7px}.header-actions{display:flex;flex-wrap:wrap;gap:9px}.content{max-width:1520px;margin:0 auto;padding:17px 32px 80px}.heading{display:flex;align-items:end;justify-content:space-between;gap:12px}.heading h1{font-size:36px;letter-spacing:-1.25px;margin-bottom:6px;font-weight:740}.heading p{margin:0;color:#a09faa}.tabs{display:flex;gap:6px;margin:7px 0 20px;border-bottom:1px solid #ffffff15}.tab{border-radius:0;background:none;color:#9998a8;padding:13px 17px 15px;font-weight:650;border-bottom:2px solid transparent}.tab:hover{color:white}.tab.active{color:white;border-bottom-color:var(--accent)}.tab span{font-size:11px;color:#898895;margin-left:5px}.tools{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px}.search-wrap{position:relative;flex:1;min-width:200px;max-width:480px}.search-wrap:before{content:'⌕';font-size:23px;position:absolute;left:14px;top:6px;color:#aaa6b7}.search-wrap input{width:100%;padding:12px 14px 12px 42px;background:#ffffff09}.counter{font-size:12px;color:#878693}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(163px,1fr));gap:24px 19px}.card{min-width:0;cursor:pointer;outline:none}.poster{width:100%;aspect-ratio:2/3;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(145deg,#333044,#15161d);font-size:42px;box-shadow:0 11px 24px #0003;transition:transform .18s,box-shadow .18s}.card:hover .poster,.card:focus-visible .poster{transform:translateY(-3px);box-shadow:0 13px 34px #0009;outline:1px solid #aea2ffb5}.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.poster .play-overlay{opacity:0;position:absolute;inset:0;background:#0006;display:grid;place-items:center;transition:opacity .17s;pointer-events:none}.card:hover .play-overlay,.card:focus-visible .play-overlay,.card:focus-within .play-overlay{opacity:1}.play-circle{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#ede8ff;color:#17131f;font-size:24px;padding:0 0 0 3px;box-shadow:0 4px 25px #0008;pointer-events:auto;border:0;transition:transform .17s,box-shadow .17s}.play-circle:hover,.play-circle:focus-visible{transform:scale(1.09);box-shadow:0 6px 28px #000b;outline:3px solid #aea2ff}.cloud-mark{position:absolute;right:9px;top:9px;background:#09090ccf;border:1px solid #ffffff24;border-radius:7px;padding:5px 7px;color:white;font-size:12px}.card-title{margin-top:12px;font-size:13px;font-weight:660;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.card-sub{margin-top:5px;font-size:12px;color:#908f9d}.notice{margin:15px 0;font-size:13px;color:#ffb6ae;white-space:pre-wrap}.notice:empty{display:none}.statusline{font-size:12px;color:#b2adc7;margin-top:12px}.folder-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.folder-chip{display:flex;align-items:center;max-width:100%;gap:8px;padding:7px 11px;background:#ffffff08;border:1px solid #ffffff15;border-radius:8px;font-size:12px;color:#aaa5b7;overflow-wrap:anywhere}.folder-chip button{background:none;border:none;padding:0;color:#aaa}.empty{margin:34px 0;padding:65px 20px;border:1px dashed #ffffff25;border-radius:18px;text-align:center;color:#aca8b9}.empty strong{display:block;color:white;font-size:19px;margin-bottom:9px}.settings{margin-top:60px;border-top:1px solid #ffffff17;padding-top:18px}.settings summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;color:#aaa;font-weight:650}.settings summary::-webkit-details-marker{display:none}.settings summary:before{content:'›';font-size:20px;display:inline-block;transition:transform .2s}.settings[open] summary:before{transform:rotate(90deg)}.settings-body{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));margin-top:20px}.settings-card{background:#ffffff06;border:1px solid var(--line);border-radius:14px;padding:17px}.settings-card h3{font-size:15px;margin-bottom:7px}.settings-card p{font-size:12px}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.row input{flex:1}.row select{max-width:180px}.report{background:#0f1016;color:#bdb7d0;border:1px solid var(--line);padding:12px;white-space:pre-wrap;word-break:break-word;border-radius:10px;max-height:240px;overflow:auto;font-size:11px}.filter-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filter-group label{font-size:11px;color:#9997a9;font-weight:630}.filter-group select{font-size:12px;padding:10px 12px;background:#1f2029;max-width:215px}.filter-group select#year-filter{max-width:140px}.filter-group button{white-space:nowrap}.footer{font-size:11px;color:#82808e;margin-top:22px;line-height:1.5}
+/* The details sheet: film-first layout with an unobtrusive editing mode. */
+.overlay{position:fixed;inset:0;background:#000c;z-index:20;padding:24px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(14px)}[hidden]{display:none!important}.modal{width:min(1000px,100%);max-height:94vh;overflow-y:auto;overscroll-behavior:contain;position:relative;border-radius:22px;background:linear-gradient(160deg,#24232f,#171820 53%);border:1px solid #ffffff25;box-shadow:0 25px 100px #000c}.modal-head{display:flex;gap:30px;padding:40px 41px 33px;position:relative}.detail-art{width:235px;aspect-ratio:2/3;flex:none;align-self:flex-start;border-radius:13px;background:linear-gradient(130deg,#3c374f,#171820);overflow:hidden;display:grid;place-items:center;font-size:45px;box-shadow:0 20px 50px #0009}.detail-art img{width:100%;height:100%;object-fit:cover;display:block}.detail-copy{flex:1;min-width:0;padding-top:6px}.eyebrow{font-size:11px;color:#bcb4dc;letter-spacing:1.3px;text-transform:uppercase;font-weight:730;margin-bottom:10px}.detail-copy h2{font-size:clamp(25px,3.3vw,38px);font-weight:750;line-height:1.15;letter-spacing:-.9px;margin-bottom:12px}.detail-meta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;color:#bbb7c6;font-size:13px;margin-bottom:19px}.rating{color:#d2c5ff}.detail-description{font-size:14px;line-height:1.7;max-width:650px;color:#c6c3d1;margin-bottom:25px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden}.detail-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.primary-play{padding:13px 24px;background:#ad9fff;color:#191626;font-size:15px;border-radius:12px;min-width:126px}.primary-play span{margin-right:9px}.detail-close{position:sticky;top:13px;float:right;margin:13px 14px -50px 0;z-index:4;border-radius:50%;background:#33323eee;color:#f3f1f7;border:1px solid #ffffff27;width:34px;height:34px;padding:0;font-size:21px;line-height:1}.minor-label{font-size:12px;color:#898696;margin-top:11px}.detail-lower{padding:0 41px 40px}.separator{height:1px;background:#ffffff19;margin:0 0 24px}.season-header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:15px;flex-wrap:wrap}.season-header h3{font-size:20px;letter-spacing:-.35px;margin:0}.season-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.season-pill{background:#ffffff10;color:#dedbe9;padding:9px 14px;border-radius:10px;font-size:12px}.season-pill.active{background:#ac9eff;color:#17141e}.episode-list{display:grid;gap:8px}.episode-row{display:flex;gap:14px;align-items:center;background:#ffffff07;border:1px solid #ffffff0c;border-radius:12px;padding:13px 14px;min-width:0}.episode-num{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:#373346;color:#d2cbfa;font-weight:750;flex:none;font-variant-numeric:tabular-nums}.episode-copy{flex:1;min-width:0}.episode-title{font-size:13px;font-weight:650;margin-bottom:5px}.episode-summary{font-size:12px;line-height:1.42;color:#9593a2;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.ep-play{font-size:12px;white-space:nowrap;padding:10px 14px}.small-note{font-size:12px;color:#9d99ab}.season-loading{font-size:12px;color:#9d98b6;margin-bottom:12px}.episode-more{position:relative}.episode-more button{background:#ffffff10;color:white;padding:9px 12px}.ep-menu{position:absolute;right:0;top:39px;z-index:4;background:#292932;border:1px solid #ffffff24;padding:7px;border-radius:9px;white-space:nowrap;box-shadow:0 8px 25px #0009}.ep-menu button{display:block;font-size:12px}
+.advanced{margin-top:23px;color:#afa9c0;font-size:12px}.advanced summary{cursor:pointer;list-style:none}.advanced summary::-webkit-details-marker{display:none}.advanced-body{background:#111218;padding:13px;margin-top:10px;border-radius:9px;word-break:break-all;line-height:1.6}.edit-area{padding:0 41px 39px;display:grid;gap:16px}.edit-area h3{font-size:19px;margin:0}.edit-area label{color:#c2becd;font-size:12px;display:grid;gap:6px}.edit-area input,.edit-area textarea{width:100%}.edit-area textarea{resize:vertical;min-height:86px}.edit-fields{display:grid;gap:12px}.edit-actions{display:flex;gap:9px;flex-wrap:wrap}.match-results{display:grid;gap:9px}.match-item{display:flex;align-items:center;gap:13px;padding:12px;border:1px solid #ffffff17;background:#ffffff07;border-radius:11px}.match-item img{width:49px;height:72px;object-fit:cover;flex:none;border-radius:6px}.match-copy{flex:1;min-width:0}.match-copy strong{font-size:13px;display:block}.match-copy small{font-size:11px;color:#a5a1af;display:block;margin-top:4px}.match-desc{font-size:11px;color:#a5a1b4;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;line-height:1.4;margin-top:4px}.match-result-status{font-size:12px;color:#b0a8c4}.modal-note{font-size:12px;color:#9691a4}.edit-category{background:#ffffff08;border:1px solid #ffffff15;border-radius:12px;padding:12px}
+@media(max-width:700px){header{padding:39px 17px 14px 96px;min-height:94px;align-items:start;flex-wrap:wrap}.content{padding:26px 17px 45px}.heading h1{font-size:29px}.grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:18px 12px}.overlay{padding:10px;align-items:center}.modal{max-height:97vh;border-radius:17px}.modal-head{padding:32px 19px 19px;gap:16px}.detail-art{width:32%;min-width:105px}.detail-copy h2{font-size:24px}.detail-description{font-size:12px;-webkit-line-clamp:5}.detail-lower,.edit-area{padding-left:19px;padding-right:19px}.primary-play{padding:10px 15px}.episode-row{gap:9px}.episode-num{width:33px;height:40px}.episode-summary{-webkit-line-clamp:1}.ep-play{padding:8px}.settings-body{grid-template-columns:1fr}}
+
+/* Continue Watching — quiet, native-feeling macOS carousel */
+.continue-section{margin:17px 0 28px}
+.continue-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;gap:12px}
+.continue-heading h2{font-size:20px;letter-spacing:-.45px;font-weight:700;margin:0}
+.continue-list{display:flex;gap:15px;overflow-x:auto;padding:0 2px 12px;scroll-snap-type:x proximity;scrollbar-color:#6b6486 transparent}
+.continue-item{flex:0 0 292px;min-height:151px;display:flex;gap:12px;padding:11px;border:1px solid #ffffff18;border-radius:16px;background:linear-gradient(135deg,#24232f,#17171e);scroll-snap-align:start;min-width:0}
+.continue-art{flex:0 0 88px;width:88px;height:132px;position:relative;border-radius:10px;overflow:hidden;background:linear-gradient(145deg,#3d384c,#191820);display:grid;place-items:center;font-size:27px;cursor:pointer}
+.continue-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.continue-copy{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:7px}
+.continue-title{font-size:13px;line-height:1.35;font-weight:690;color:#f4f0ff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.continue-sub{font-size:11px;color:#a8a5b6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.continue-bar{height:4px;border-radius:50px;overflow:hidden;background:#ffffff24}
+.continue-bar>span{display:block;height:100%;background:#aea2ff;border-radius:50px}
+.continue-actions{display:flex;align-items:center;gap:7px}
+.continue-play{padding:8px 12px;font-size:12px;border-radius:9px;white-space:nowrap}
+.continue-dismiss{width:29px;height:29px;margin-left:auto;padding:0;background:#ffffff10;color:#cfccda;border-radius:50%;font-size:15px}
+.continue-dismiss:hover{background:#ffffff24}
+.watch-status{font-size:12px;color:#a8a1bd;margin:8px 0 0}
+.episode-bar{width:100%;max-width:250px;height:3px;background:#ffffff20;border-radius:4px;margin-top:7px;overflow:hidden}
+.episode-bar span{height:100%;display:block;background:var(--accent);border-radius:4px}
+@media(max-width:640px){.continue-item{flex-basis:252px}.continue-art{flex-basis:72px;width:72px;height:110px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">IINA <b>Library</b><small>v0.13</small></div>
+  <div class="header-actions"><button id="refresh" class="secondary">↻ Refresh</button><button id="add">＋ Add folder</button></div>
+</header>
+<main class="content">
+
+  <div id="folders" class="folder-row"></div><div id="errors" class="notice"></div><div id="progress" class="statusline"></div>
+  <section id="continue-section" class="continue-section" hidden aria-label="Continue Watching">
+    <div class="continue-heading"><h2>Continue Watching</h2><span id="continue-count" class="muted tiny"></span></div>
+    <div id="continue-list" class="continue-list"></div>
+  </section>
+  <nav id="tabs" class="tabs" aria-label="Library sections"></nav>
+  <div class="tools">
+    <div class="search-wrap"><input id="search" type="search" placeholder="Search movies and shows…" aria-label="Search library"></div>
+    <div class="filter-group">
+      <label for="sort">Sort</label>
+      <select id="sort" aria-label="Sort library">
+        <option value="title-asc">Title: A–Z</option>
+        <option value="title-desc">Title: Z–A</option>
+        <option value="year-desc">Release: Newest first</option>
+        <option value="year-asc">Release: Oldest first</option>
+        <option value="rating-desc">Rating: Highest first</option>
+        <option value="rating-asc">Rating: Lowest first</option>
+      </select>
+      <label for="year-filter">Released</label>
+      <select id="year-filter" aria-label="Filter by release decade"><option value="all">All years</option></select>
+      <button id="clear-filters" class="secondary sm" hidden>Clear</button>
+    </div>
+    <span id="count" class="counter" aria-live="polite"></span>
+  </div>
+  <div id="grid" class="grid"></div><div id="empty" class="empty" hidden><strong>No titles found</strong>Try another filter or add a media folder.</div>
+  <details class="settings"><summary>Settings &amp; advanced tools</summary><div class="settings-body">
+    <section class="settings-card"><h3>TMDB metadata</h3><p>Movie details and posters are cached on your Mac. Your API key is kept locally.</p><div class="row"><input id="token" type="password" autocomplete="off" placeholder="TMDB v3 API key"><button class="sm" id="save-token">Save</button><button class="secondary sm" id="erase-token">Remove</button></div><p id="key-state" class="tiny muted" style="margin-top:10px"></p><div class="row"><button class="secondary sm" id="enrich">✦ Refresh metadata &amp; artwork</button><button class="secondary sm" id="refresh-english">Update existing details to English</button></div><p class="tiny"><a href="https://www.themoviedb.org/settings/api">Get a free API key</a></p></section>
+    <section class="settings-card"><h3>Collections</h3><p>Move a title between collections from its details screen.</p><div class="row"><select id="manage-category"></select><button class="secondary sm" id="rename">Rename</button><button class="secondary sm" id="new-category">New</button><button class="secondary sm" id="delete-category">Delete</button></div></section>
+    <section class="settings-card"><h3>Maintenance</h3><p>Folder paths, scanning and diagnostics.</p><div class="row"><button class="secondary sm" id="manual">Enter a path</button><button class="secondary sm" id="diagnose">Run diagnostics</button><button class="secondary sm" id="toggle-report">Show log</button></div><pre class="report" id="report" hidden></pre></section>
+  </div></details>
+  <div class="footer">This product uses the TMDB API but is not endorsed or certified by TMDB. <a href="https://www.themoviedb.org/about/logos-attribution">TMDB attribution</a>. Your media stays in your local and iCloud folders.</div>
+</main>
+<div id="overlay" class="overlay" hidden></div>
+<script>
+'use strict';
+let roots=[],categories=[],items=[],errors=[],report=[],meta={},manualMeta={},busy=false,loadingMeta=false,metaProgress='',hasKey=false;
+let active='all',sortOrder='title-asc',decadeFilter='all',posterData={},posterRequested=new Set(),posterMissing=new Set(),openedPath='',selectedSeason=null,matching=null;
+let seasonDetails={},currentSeasonRequest='',refreshDetailOnNextLibrary=false,watch={};
+const $=id=>document.getElementById(id);
+function send(event,data){if(window.iina&&iina.postMessage)iina.postMessage(event,data);else $('errors').textContent='Open this plugin in IINA to access your media.';}
+function el(tag,cls,text){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x;}
+function effective(f){return {...(meta[f.mediaKey]||{}),...(manualMeta[f.mediaKey]||{})};}
+function pretty(f){const title=effective(f).title||f.title||'Untitled';return title==='Film à identifier'?'Unidentified movie':title==='Série à identifier'?'Unidentified series':title;}
+function categoryName(c){if(c.id==='films'&&['Films','Movies'].includes(c.name))return 'Movies';if(c.id==='series'&&['Séries','Series','TV Shows'].includes(c.name))return 'TV Shows';return c.name;}
+function releaseYear(f){const n=parseInt(effective(f).year||f.year||'',10);return n>=1880&&n<=2200?n:null;}
+function ratingValue(f){const n=effective(f).rating;return typeof n==='number'&&Number.isFinite(n)&&n>0?n:null;}
+function firstEpisode(group){return group.slice().sort((a,b)=>{const x=episodeParts(a),y=episodeParts(b);return (x.season??999)-(y.season??999)||(x.number??999)-(y.number??999)||a.path.localeCompare(b.path);})[0];}
+function firstPlayable(group){return firstEpisode(group.filter(x=>!x.icloud))||firstEpisode(group);}
+function updateDecadeOptions(){const selector=$('year-filter'),prev=decadeFilter,decades=[...new Set(items.map(releaseYear).filter(x=>x!==null).map(y=>Math.floor(y/10)*10))].sort((a,b)=>b-a);selector.replaceChildren();const all=el('option','','All years');all.value='all';selector.append(all);for(const d of decades){const o=el('option','',d+'s');o.value=String(d);selector.append(o);}decadeFilter=(prev==='all'||decades.includes(Number(prev)))?prev:'all';selector.value=decadeFilter;}
+function isSeries(f){return f.category==='series';}
+function groupFor(f){return isSeries(f)?items.filter(x=>x.mediaKey===f.mediaKey):[f];}
+function tagLine(f,group){const m=effective(f);if(isSeries(f))return group.length+' episode'+(group.length!==1?'s':'')+' available';let s=m.year||f.year||'';if(typeof m.rating==='number'&&m.rating>0)s+=(s?'  ·  ':'')+'★ '+m.rating.toFixed(1);return s;}
+function showPoster(key,img){
+ if(posterData[key]){img.src=posterData[key];return;}
+ if(posterMissing.has(key)||posterRequested.has(key))return;
+ posterRequested.add(key);send('poster',key);
+}
+function posterElement(f,cls){const wrap=el('div',cls||'poster','🎬'),m=meta[f.mediaKey];if(m&&m.posterPath){const img=el('img');img.alt='Poster for '+pretty(f);img.dataset.posterKey=f.mediaKey;img.loading='lazy';img.onerror=()=>{posterMissing.add(f.mediaKey);img.remove();};wrap.append(img);showPoster(f.mediaKey,img);}return wrap;}
+function groupEntries(){
+ const query=$('search').value.trim().toLocaleLowerCase('en');
+ const filtered=items.filter(f=>(active==='all'||active===f.category)&&(pretty(f)+' '+f.title+' '+f.parentTitle).toLocaleLowerCase('en').includes(query));
+ const cards=[],seen=new Set();for(const f of filtered){if(isSeries(f)){if(seen.has(f.mediaKey))continue;seen.add(f.mediaKey);}cards.push(f);}
+ const visible=cards.filter(f=>decadeFilter==='all'||(releaseYear(f)!==null&&Math.floor(releaseYear(f)/10)*10===Number(decadeFilter)));
+ const titleCompare=(a,b)=>pretty(a).localeCompare(pretty(b),'en',{numeric:true,sensitivity:'base'});
+ const compareNumber=(a,b,key,ascending)=>{const av=key(a),bv=key(b);if(av===null&&bv===null)return titleCompare(a,b);if(av===null)return 1;if(bv===null)return -1;return (ascending?av-bv:bv-av)||titleCompare(a,b);};
+ visible.sort((a,b)=>{switch(sortOrder){case 'title-desc':return -titleCompare(a,b);case 'year-desc':return compareNumber(a,b,releaseYear,false);case 'year-asc':return compareNumber(a,b,releaseYear,true);case 'rating-desc':return compareNumber(a,b,ratingValue,false);case 'rating-asc':return compareNumber(a,b,ratingValue,true);default:return titleCompare(a,b);}});
+ return [visible,filtered];
+}
+function watchInfo(path){const w=watch[path];if(!w||w.completed||w.dismissed||!(w.duration>90)||!(w.position>=45))return null;
+ const pct=w.position/w.duration;if(pct>=.92)return null;return {...w,percent:Math.max(0,Math.min(100,pct*100))};}
+function niceTime(seconds){const mins=Math.max(0,Math.floor(Number(seconds||0)/60));const hrs=Math.floor(mins/60);return hrs?hrs+'h '+String(mins%60).padStart(2,'0')+'m':mins+'m';}
+function watchTitle(f){if(!isSeries(f))return pretty(f);const ep=episodeParts(f);return pretty(f)+(ep.number!==null?' · S'+String(ep.season??0).padStart(2,'0')+'E'+String(ep.number).padStart(2,'0'):'');}
+function renderContinue(){
+ const section=$('continue-section'),list=$('continue-list');list.replaceChildren();
+ if(!items.length){section.hidden=true;return;}
+ // A show occupies one shelf tile; resume the most recently watched episode.
+ const matches=[],seen=new Set();
+ for(const f of items){const w=watchInfo(f.path);if(w)matches.push({f,w});}
+ matches.sort((a,b)=>Number(b.w.updatedAt||0)-Number(a.w.updatedAt||0));
+ const visible=[];for(const entry of matches){const id=isSeries(entry.f)?entry.f.mediaKey:entry.f.path;if(seen.has(id))continue;seen.add(id);visible.push(entry);if(visible.length>=12)break;}
+ section.hidden=visible.length===0;$('continue-count').textContent=visible.length+' in progress';
+ for(const {f,w} of visible){
+  const tile=el('article','continue-item'),art=posterElement(f,'continue-art'),copy=el('div','continue-copy');
+  const title=el('div','continue-title',watchTitle(f)),sub=el('div','continue-sub',niceTime(w.duration-w.position)+' left');
+  art.onclick=()=>openDetail(f);title.onclick=()=>openDetail(f);
+  const bar=el('div','continue-bar'),fill=el('span');fill.style.width=w.percent.toFixed(2)+'%';bar.append(fill);bar.setAttribute('role','progressbar');bar.setAttribute('aria-label','Playback progress');bar.setAttribute('aria-valuenow',String(Math.round(w.percent)));bar.setAttribute('aria-valuemin','0');bar.setAttribute('aria-valuemax','100');
+  const actions=el('div','continue-actions'),play=el('button','continue-play','▶ Resume'),remove=el('button','continue-dismiss','×');
+  play.onclick=()=>send('play',{path:f.path});remove.title='Remove from Continue Watching';remove.setAttribute('aria-label',remove.title);remove.onclick=()=>send('watch-action',{path:f.path,action:'watched'});
+  actions.append(play,remove);copy.append(title,sub,bar,actions);tile.append(art,copy);list.append(tile);
+ }
+}
+function render(){
+ renderContinue();
+ $('folders').replaceChildren();for(const path of roots){const chip=el('div','folder-chip'),txt=el('span','','▣ '+path),remove=el('button','','×');remove.title='Remove this folder';remove.onclick=()=>send('remove',path);chip.append(txt,remove);$('folders').append(chip);}
+ $('errors').textContent=errors.slice(0,5).join('\n');$('progress').textContent=(busy?'Scanning folders…  ':'')+(loadingMeta?'TMDB metadata: ':'')+metaProgress;$('key-state').textContent=hasKey?'API key saved locally':'No API key configured';$('enrich').disabled=busy||loadingMeta||!hasKey;$('refresh-english').disabled=busy||loadingMeta||!hasKey;
+ $('tabs').replaceChildren();for(const c of [{id:'all',name:'All'},...categories]){const count=c.id==='all'?items.length:items.filter(x=>x.category===c.id).length;const tab=el('button','tab'+(active===c.id?' active':''));tab.append(el('strong','',categoryName(c)),el('span','',count));tab.onclick=()=>{active=c.id;render();};$('tabs').append(tab);}
+ const [cards,filtered]=groupEntries();$('grid').replaceChildren();$('empty').hidden=cards.length>0;$('count').textContent=cards.length+' title'+(cards.length!==1?'s':'');$('clear-filters').hidden=decadeFilter==='all'&&!$('search').value.trim()&&sortOrder==='title-asc';
+ for(const f of cards){
+ const group=groupFor(f),card=el('article','card'),poster=posterElement(f,'poster'),overlay=el('div','play-overlay'),play=el('button','play-circle','▶');
+ const target=isSeries(f)?firstPlayable(group):f;
+ play.type='button';play.title=isSeries(f)?'Play first available episode':'Play '+pretty(f);
+ play.setAttribute('aria-label',play.title);
+ // Only the centre Play button starts playback; clicking any other part opens details.
+ play.onclick=e=>{e.stopPropagation();send('play',target.path);};
+ overlay.append(play);poster.append(overlay);
+ if(group.some(x=>x.icloud))poster.append(el('span','cloud-mark','☁'));
+ card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Show details for '+pretty(f));
+ card.append(poster,el('div','card-title',pretty(f)),el('div','card-sub',tagLine(f,group)));
+ card.onclick=()=>openDetail(f);
+ card.onkeydown=e=>{if(e.target!==card)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail(f);}};
+ $('grid').append(card);
+}
+ const select=$('manage-category'),old=select.value;select.replaceChildren();for(const c of categories){const opt=el('option','',categoryName(c));opt.value=c.id;select.append(opt);}if(categories.some(c=>c.id===old))select.value=old;$('report').textContent=report.join('\n');
+}
+function closeDetail(){openedPath='';matching=null;currentSeasonRequest='';$('overlay').hidden=true;$('overlay').replaceChildren();}
+function episodeParts(ep){let season=Number.isInteger(ep.seasonNumber)?ep.seasonNumber:null,number=Number.isInteger(ep.episodeNumber)?ep.episodeNumber:null;
+ if((season===null||number===null)&&ep.episode){const match=String(ep.episode).match(/^S(\d+)E(\d+)$/i);if(match){season=Number(match[1]);number=Number(match[2]);}}
+ return {season,number};}
+function seasonKeys(group){const keys=[...new Set(group.map(x=>episodeParts(x).season===null?'unknown':episodeParts(x).season))];return keys.sort((a,b)=>a==='unknown'?1:b==='unknown'?-1:a-b);}
+function seasonLabel(n){return n==='unknown'?'Other episodes':n===0?'Specials':'Season '+n;}
+function requestSeason(f,season){if(season==='unknown')return;const m=meta[f.mediaKey];if(!m||!m.id)return;const key=m.id+':'+season;currentSeasonRequest=key;send('season',{path:f.path,season});}
+function seasonEpisodes(f,season){const m=meta[f.mediaKey];if(!m||!m.id)return [];return seasonDetails[m.id+':'+season]?.episodes||[];}
+function renderEpisodes(f,group,container){
+ container.replaceChildren();const seasons=seasonKeys(group);if(!seasons.length)return;
+ if(selectedSeason===null||!seasons.includes(selectedSeason))selectedSeason=seasons.find(x=>x!==0&&x!=='unknown')??seasons[0];
+ const hdr=el('div','season-header');hdr.append(el('h3','','Episodes'),el('span','small-note',group.length+' available'+(group.length!==1?'s':'')));container.append(el('div','separator'),hdr);
+ const tabs=el('div','season-tabs');for(const s of seasons){const b=el('button','season-pill'+(selectedSeason===s?' active':''),seasonLabel(s));b.onclick=()=>{if(selectedSeason!==s){selectedSeason=s;renderEpisodes(f,group,container);requestSeason(f,s);}};tabs.append(b);}container.append(tabs);
+ const m=meta[f.mediaKey],seasonKey=m&&m.id?m.id+':'+selectedSeason:'';
+ if(seasonKey&&seasonDetails[seasonKey]?.error){container.append(el('div','season-loading',seasonDetails[seasonKey].error));}
+ const seasonData=seasonEpisodes(f,selectedSeason);const byNumber=new Map(seasonData.map(x=>[Number(x.number),x]));const episodes=group.filter(ep=>(episodeParts(ep).season===null?'unknown':episodeParts(ep).season)===selectedSeason).sort((a,b)=>{const an=episodeParts(a).number,bn=episodeParts(b).number;return (an??99999)-(bn??99999)||a.path.localeCompare(b.path);});
+ const list=el('div','episode-list');for(const ep of episodes){const parsed=episodeParts(ep),number=parsed.number,tmdbEp=number!==null?byNumber.get(number):null;
+ const row=el('div','episode-row'),num=el('div','episode-num',number!==null?String(number).padStart(2,'0'):'—'),copy=el('div','episode-copy'),title=el('div','episode-title',tmdbEp&&tmdbEp.name&&!/^episode\s*\d+$/i.test(tmdbEp.name)?number+' · '+tmdbEp.name:number!==null?'Episode '+number:'Unknown episode');copy.append(title);
+ if(tmdbEp?.overview)copy.append(el('div','episode-summary',tmdbEp.overview));else if(ep.icloud)copy.append(el('div','episode-summary','Stored in iCloud'));
+ const progress=watchInfo(ep.path);
+ if(progress){const bar=el('div','episode-bar'),fill=el('span');fill.style.width=progress.percent+'%';bar.append(fill);copy.append(bar);}
+ const play=el('button','ep-play',ep.icloud?'☁ iCloud':progress?'▶ Resume':'▶ Play');play.title=ep.icloud?'Download in Finder before playing':`Play episode ${number??''}`;play.onclick=()=>send('play',{path:ep.path});
+ const more=el('div','episode-more'),moreB=el('button','secondary sm','···'),menu=el('div','ep-menu');menu.hidden=true;const finder=el('button','secondary sm','Show in Finder');finder.onclick=()=>{send('reveal',ep.path);menu.hidden=true;};menu.append(finder);
+ const restart=el('button','secondary sm','Start over');restart.onclick=()=>{send('play',{path:ep.path,restart:true});menu.hidden=true;};
+ const watched=el('button','secondary sm','Mark watched');watched.onclick=()=>{send('watch-action',{path:ep.path,action:'watched'});menu.hidden=true;};
+ menu.append(restart,watched);moreB.setAttribute('aria-label','File options');moreB.onclick=()=>menu.hidden=!menu.hidden;more.append(moreB,menu);
+ row.append(num,copy,play,more);list.append(row);
+ }container.append(list);
+ if(seasonKey&&!seasonDetails[seasonKey])container.append(el('p','small-note','Episode names will appear after the first TMDB lookup and will be cached locally.'));
+}
+function openDetail(f,editNow=false){
+ const found=items.find(x=>x.path===f.path);if(found)f=found;
+ openedPath=f.path;selectedSeason=null;matching=null;
+ const group=groupFor(f),m=effective(f),layer=$('overlay'),dialog=el('div','modal'),close=el('button','detail-close','×');close.setAttribute('aria-label','Close details');close.onclick=closeDetail;
+ dialog.append(close);
+ const head=el('div','modal-head'),art=posterElement(f,'detail-art'),copy=el('div','detail-copy');copy.append(el('div','eyebrow',isSeries(f)?'TV Series':'Movie'),el('h2','',pretty(f)));
+ const metaRow=el('div','detail-meta');if(m.year||f.year)metaRow.append(el('span','',m.year||f.year));if(typeof m.rating==='number'&&m.rating>0)metaRow.append(el('span','rating','★ '+m.rating.toFixed(1)+'/10'));if(isSeries(f))metaRow.append(el('span','',group.length+' episode'+(group.length>1?'s':'')));copy.append(metaRow);
+ copy.append(el('p','detail-description',m.overview||'No synopsis available yet. Add TMDB metadata to complete this page.'));
+ const buttons=el('div','detail-actions'),play=el('button','primary-play'),playTarget=isSeries(f)?group.find(x=>!x.icloud)||group[0]:f;
+ play.append(el('span','','▶'),document.createTextNode(isSeries(f)?'Browse episodes':'Play movie'));play.onclick=()=>{if(isSeries(f)){const list=dialog.querySelector('.detail-lower');if(list)list.scrollIntoView({behavior:'smooth',block:'start'});}else send('play',playTarget.path);};
+ const edit=el('button','secondary','✎ Edit metadata');edit.onclick=()=>showEditor(f,dialog);
+ const finder=el('button','secondary','↗ Finder');finder.title='Show in Finder';finder.onclick=()=>send('reveal',f.path);
+ buttons.append(play,edit,finder);
+ if(!isSeries(f)){
+  const w=watchInfo(f.path);
+  if(w){play.lastChild.textContent='Resume · '+niceTime(w.position);const restart=el('button','secondary','↺ Start over');restart.onclick=()=>send('play',{path:f.path,restart:true});buttons.append(restart);
+   const status=el('div','watch-status',Math.round(w.percent)+'% watched · '+niceTime(w.duration-w.position)+' remaining');copy.append(status);}
+  if(watch[f.path]&&!watch[f.path].completed){const mark=el('button','secondary sm','✓ Mark watched');mark.onclick=()=>{send('watch-action',{path:f.path,action:'watched'});closeDetail();};buttons.append(mark);}
+ }
+ copy.append(buttons);head.append(art,copy);dialog.append(head);
+ const lower=el('div','detail-lower');if(isSeries(f)){renderEpisodes(f,group,lower);}else{const adv=el('details','advanced'),sum=el('summary','','File information'),body=el('div','advanced-body');body.append(el('div','','File name: '+f.name),el('div','','Location: '+f.path));adv.append(sum,body);lower.append(adv);}dialog.append(lower);
+ const editor=el('section','edit-area');editor.id='detail-editor';editor.hidden=true;dialog.append(editor);layer.replaceChildren(dialog);layer.hidden=false;
+ if(isSeries(f)&&selectedSeason!==null)requestSeason(f,selectedSeason);if(editNow)showEditor(f,dialog);
+}
+function showEditor(f,dialog){const editor=dialog.querySelector('#detail-editor');if(!editor)return;editor.hidden=false;editor.replaceChildren();matching={path:f.path,key:f.mediaKey};const m=effective(f);editor.append(el('div','separator'),el('h3','','Edit metadata'),el('p','modal-note','Changes are saved locally and never rename your video files.'));
+ const cat=el('div','edit-category'),label=el('label','','Collection'),sel=el('select');const group=groupFor(f);for(const c of categories){const opt=el('option','',categoryName(c));opt.value=c.id;opt.selected=c.id===f.category;sel.append(opt);}sel.onchange=()=>{send('item-category',{paths:group.map(x=>x.path),category:sel.value});closeDetail();};label.append(sel);cat.append(label);editor.append(cat);
+ const fields=el('div','edit-fields'),titleLabel=el('label','','Display title'),title=el('input');title.value=m.title||pretty(f);title.maxLength=150;titleLabel.append(title);
+ const yearLabel=el('label','','Year'),year=el('input');year.value=m.year||f.year||'';year.placeholder='1997';year.maxLength=4;yearLabel.append(year);
+ const overviewLabel=el('label','','Custom synopsis'),overview=el('textarea');overview.value=m.overview||'';overview.rows=4;overview.maxLength=5000;overviewLabel.append(overview);fields.append(titleLabel,yearLabel,overviewLabel);editor.append(fields);
+ const actions=el('div','edit-actions'),save=el('button','sm','Save'),reset=el('button','secondary sm','Reset to TMDB metadata');save.onclick=()=>send('save-local-meta',{path:f.path,title:title.value,year:year.value,overview:overview.value});reset.onclick=()=>send('reset-local-meta',{path:f.path});actions.append(save,reset);editor.append(actions);
+ editor.append(el('h3','','Choose another TMDB match'),el('p','modal-note','Search for a title, compare posters and select the correct match.'));
+ const searchRow=el('div','row'),query=el('input');query.placeholder='Search TMDB';query.value=f.title.includes('à identifier')?(f.parentTitle||''):pretty(f);
+ const lookup=el('button','','Search');lookup.onclick=()=>{if(!query.value.trim())return;const status=$('match-status'),results=$('match-results');if(status)status.textContent='Searching TMDB…';if(results)results.replaceChildren();send('search-candidates',{path:f.path,query:query.value.trim()});};query.onkeydown=e=>{if(e.key==='Enter')lookup.click();};searchRow.append(query,lookup);editor.append(searchRow);
+ if(f.parentTitle&&f.parentTitle!==f.title){const folder=el('button','secondary sm','↳ Search folder: '+f.parentTitle);folder.onclick=()=>{query.value=f.parentTitle;lookup.click();};editor.append(folder);}
+ const status=el('p','match-result-status','TMDB matches will appear here.');status.id='match-status';const results=el('div','match-results');results.id='match-results';editor.append(status,results);
+ editor.scrollIntoView({behavior:'smooth',block:'start'});if(hasKey)lookup.click();
+}
+function showCandidates(data){if(!matching||!data||matching.path!==data.path)return;const status=$('match-status'),results=$('match-results');if(!status||!results)return;results.replaceChildren();if(data.error){status.textContent=data.error;return;}const choices=data.results||[];status.textContent=choices.length?choices.length+' results — choose the right poster.':'No matches found. Try another title.';
+ for(const r of choices){const line=el('div','match-item'),details=el('div','match-copy');details.append(el('strong','',r.title),el('small','',(r.year||'Unknown year')+(r.originalTitle&&r.title!==r.originalTitle?' · '+r.originalTitle:'')));if(r.overview)details.append(el('div','match-desc',r.overview));if(r.posterPath&&/^\/[A-Za-z0-9/_-]+\.(jpg|jpeg|png)$/i.test(r.posterPath)){const thumb=el('img');thumb.src='https://image.tmdb.org/t/p/w92'+r.posterPath;thumb.alt='';line.append(thumb);}const choose=el('button','sm','Use this match');choose.onclick=()=>{status.textContent='Saving match…';send('apply-candidate',{path:matching.path,id:r.id});};line.append(details,choose);results.append(line);}
+}
+function associationFinished(data){if(!matching||!data||matching.path!==data.path)return;if(!data.ok){const status=$('match-status');if(status)status.textContent='Error: '+(data.error||'Unknown');return;}delete posterData[matching.key];posterRequested.delete(matching.key);posterMissing.delete(matching.key);refreshDetailOnNextLibrary=true;const status=$('match-status');if(status)status.textContent='✓ Metadata saved';}
+function localFinished(data){if(!matching||!data||matching.path!==data.path)return;refreshDetailOnNextLibrary=true;const status=$('match-status');if(status)status.textContent='✓ Changes saved';}
+function showSeason(data){const f=items.find(x=>x.path===data?.path);if(!f||!isSeries(f))return;const m=meta[f.mediaKey];if(!m||!m.id)return;const key=m.id+':'+data.season;seasonDetails[key]={episodes:data.episodes||[],error:data.error||''};if(openedPath&&groupFor(f).some(x=>x.path===openedPath)&&selectedSeason===data.season){const container=document.querySelector('.detail-lower');if(container)renderEpisodes(f,groupFor(f),container);}}
+$('sort').onchange=()=>{sortOrder=$('sort').value;render();};
+$('year-filter').onchange=()=>{decadeFilter=$('year-filter').value;render();};
+$('clear-filters').onclick=()=>{$('search').value='';sortOrder='title-asc';$('sort').value=sortOrder;decadeFilter='all';$('year-filter').value='all';render();};
+$('refresh').onclick=()=>send('scan');$('add').onclick=()=>send('add');$('manual').onclick=()=>{const value=prompt('Absolute folder path:');if(value)send('add-path',value.trim());};$('enrich').onclick=()=>send('enrich');$('refresh-english').onclick=()=>send('refresh-english');$('search').oninput=render;
+$('save-token').onclick=()=>{const value=$('token').value.trim();if(!value){alert('Enter a TMDB API key.');return;}send('set-key',value);$('token').value='';};$('erase-token').onclick=()=>{if(confirm('Remove the saved API key?'))send('set-key','');};
+$('new-category').onclick=()=>{const name=prompt('New collection:');if(name)send('category-add',name);};$('rename').onclick=()=>{const c=categories.find(x=>x.id===$('manage-category').value);if(c){const name=prompt('Rename collection:',c.name);if(name)send('category-rename',{id:c.id,name});}};$('delete-category').onclick=()=>{const id=$('manage-category').value;if(id==='films'||id==='series')return alert('This built-in collection can be renamed but not deleted.');if(confirm('Delete this collection?'))send('category-delete',id);};
+$('diagnose').onclick=()=>{send('diagnose');$('report').hidden=false;};$('toggle-report').onclick=()=>{$('report').hidden=!$('report').hidden;};$('overlay').onclick=e=>{if(e.target===$('overlay'))closeDetail();};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('overlay').hidden)closeDetail();});
+if(window.iina&&iina.onMessage){
+ iina.onMessage('library',data=>{roots=data.roots||[];categories=data.categories||[];items=data.items||[];errors=data.errors||[];report=data.report||[];meta=data.meta||{};manualMeta=data.manualMeta||{};busy=!!data.busy;loadingMeta=!!data.loadingMeta;metaProgress=data.metaProgress||'';hasKey=!!data.hasKey;watch=data.watch||watch;if(active!=='all'&&!categories.some(c=>c.id===active))active='all';updateDecadeOptions();render();if(refreshDetailOnNextLibrary&&openedPath){refreshDetailOnNextLibrary=false;const f=items.find(x=>x.path===openedPath);if(f)openDetail(f);}});
+ iina.onMessage('watch',data=>{watch=data&&data.watch||{};renderContinue();});
+ iina.onMessage('season',showSeason);
+ iina.onMessage('candidates',showCandidates);
+ iina.onMessage('association',associationFinished);
+ iina.onMessage('local-saved',localFinished);
+ iina.onMessage('poster',data=>{if(!data||!data.key)return;posterRequested.delete(data.key);if(data.missing){posterMissing.add(data.key);return;}if(data.src){posterData[data.key]=data.src;posterMissing.delete(data.key);document.querySelectorAll('img[data-poster-key]').forEach(img=>{if(img.dataset.posterKey===data.key)img.src=data.src;});}});
+}
+render();send('ready');
+</script>
+</body>
+</html>

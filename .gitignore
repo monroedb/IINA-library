@@ -1,0 +1,12 @@
+# User-specific secrets and caches — must NEVER be committed
+.env
+.env.*
+@data/
+**/@data/
+*.log
+.DS_Store
+**/.DS_Store
+*.zip
+*.iinaplgz
+*.iinaplugin/
+node_modules/
