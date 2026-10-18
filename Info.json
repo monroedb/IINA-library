@@ -1,7 +1,7 @@
 {
   "name": "IINA Library",
   "identifier": "com.iinalibrary.prototype",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "author": {
     "name": "monroedb",
     "url": "https://github.com/monroedb/IINA-library"
@@ -19,5 +19,5 @@
     "www.themoviedb.org"
   ],
   "ghRepo": "monroedb/IINA-library",
-  "ghVersion": 13
+  "ghVersion": 14
 }

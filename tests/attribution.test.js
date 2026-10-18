@@ -13,5 +13,5 @@ assert.ok(html.includes('This product uses the TMDB API but is not endorsed or c
 assert.ok(html.includes('https://www.themoviedb.org/'));
 assert.ok(config.allowedDomains.includes('www.themoviedb.org'));
 assert.equal(config.ghRepo, 'monroedb/IINA-library');
-assert.equal(config.ghVersion, 13);
+assert.equal(config.ghVersion, 14);
 console.log('PASS: TMDB Credits contain unmodified official-logo URL, disclaimer, and domain permission');

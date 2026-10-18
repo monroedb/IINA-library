@@ -12,5 +12,7 @@ jobs:
       - run: node --check main.js
       - run: node tests/playback.test.js
       - run: node tests/cache.test.js
+      - run: node tests/artwork.test.js
+      - run: node tests/interface.test.js
       - run: node tests/attribution.test.js
       - run: node -e "const i=require('./Info.json'); if(!i.ghRepo||!i.ghVersion||!i.entry||!i.globalEntry) process.exit(1)"

@@ -42,11 +42,39 @@
 .episode-bar{width:100%;max-width:250px;height:3px;background:#ffffff20;border-radius:4px;margin-top:7px;overflow:hidden}
 .episode-bar span{height:100%;display:block;background:var(--accent);border-radius:4px}
 @media(max-width:640px){.continue-item{flex-basis:252px}.continue-art{flex-basis:72px;width:72px;height:110px}}
+
+/* v0.13.1 — simplified settings, consistent with the library's native look */
+.settings{margin-top:42px;padding-top:22px}
+.settings > summary{font-size:15px;letter-spacing:-.15px;color:#d3d0dd;padding:6px 0}
+.settings > summary:hover{color:#fff}
+.settings-body{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+.settings-card{padding:22px;background:#ffffff05;border-color:#ffffff13;border-radius:17px;min-width:0}
+.settings-card h3{font-size:16px;letter-spacing:-.3px;font-weight:690;margin-bottom:8px}
+.settings-card p{font-size:12px;line-height:1.55;color:#aaa6b6;max-width:430px;margin-bottom:19px}
+.settings-card input{min-width:130px}
+.settings-key{gap:9px}
+.settings-state{font-size:11px!important;color:#b1a8d1!important;margin:10px 0 0!important;min-height:15px}
+.settings-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.settings-link{font-size:12px;text-decoration:none;white-space:nowrap}
+.settings-link:hover{text-decoration:underline}
+.settings-collections{gap:8px;margin-top:24px}
+.settings-collections select{flex:1;min-width:115px;max-width:250px}
+.settings-advanced{grid-column:1/-1;border:1px solid #ffffff14;border-radius:14px;background:#ffffff04;overflow:hidden}
+.settings-advanced > summary{list-style:none;cursor:pointer;padding:17px 20px;font-size:13px;color:#c8c4d4;font-weight:650;display:flex;align-items:center;gap:10px}
+.settings-advanced > summary::-webkit-details-marker{display:none}
+.settings-advanced > summary:before{content:'›';font-size:19px;color:#aaa0c9;transition:transform .2s}
+.settings-advanced[open] > summary:before{transform:rotate(90deg)}
+.settings-advanced > summary span{font-weight:400;color:#868293;font-size:12px;margin-left:auto}
+.settings-advanced-body{padding:0 20px 20px}
+.settings-advanced-body .report{margin:14px 0 0}
+.tmdb-credits{padding:19px 22px;gap:18px}
+.tmdb-credits-copy p{margin-bottom:6px}
+@media(max-width:760px){.settings-body{grid-template-columns:1fr}.settings-advanced > summary{flex-wrap:wrap}.settings-advanced > summary span{margin-left:0}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">IINA <b>Library</b><small>v0.13</small></div>
+  <div class="brand">IINA <b>Library</b><small>v0.13.1</small></div>
   <div class="header-actions"><button id="refresh" class="secondary">↻ Refresh</button><button id="add">＋ Add folder</button></div>
 </header>
 <main class="content">
@@ -76,10 +104,10 @@
     <span id="count" class="counter" aria-live="polite"></span>
   </div>
   <div id="grid" class="grid"></div><div id="empty" class="empty" hidden><strong>No titles found</strong>Try another filter or add a media folder.</div>
-  <details class="settings"><summary>Settings &amp; advanced tools</summary><div class="settings-body">
-    <section class="settings-card"><h3>TMDB metadata</h3><p>Movie details and posters are cached on your Mac. Your API key is kept locally.</p><div class="row"><input id="token" type="password" autocomplete="off" placeholder="TMDB v3 API key"><button class="sm" id="save-token">Save</button><button class="secondary sm" id="erase-token">Remove</button></div><p id="key-state" class="tiny muted" style="margin-top:10px"></p><div class="row"><button class="secondary sm" id="enrich">✦ Refresh metadata &amp; artwork</button><button class="secondary sm" id="refresh-english">Update existing details to English</button></div><p class="tiny"><a href="https://www.themoviedb.org/settings/api">Get a free API key</a></p></section>
-    <section class="settings-card"><h3>Collections</h3><p>Move a title between collections from its details screen.</p><div class="row"><select id="manage-category"></select><button class="secondary sm" id="rename">Rename</button><button class="secondary sm" id="new-category">New</button><button class="secondary sm" id="delete-category">Delete</button></div></section>
-    <section class="settings-card"><h3>Maintenance</h3><p>Folder paths, scanning and diagnostics.</p><div class="row"><button class="secondary sm" id="manual">Enter a path</button><button class="secondary sm" id="diagnose">Run diagnostics</button><button class="secondary sm" id="toggle-report">Show log</button></div><pre class="report" id="report" hidden></pre></section>
+  <details class="settings"><summary>Settings</summary><div class="settings-body">
+    <section class="settings-card"><h3>Artwork &amp; metadata</h3><p>Get movie and TV show details from TMDB. Your API key and downloaded artwork stay on this Mac.</p><div class="row settings-key"><input id="token" type="password" autocomplete="off" placeholder="TMDB API key" aria-label="TMDB API key"><button class="sm" id="save-token">Save</button><button class="secondary sm" id="erase-token">Remove</button></div><p id="key-state" class="settings-state" aria-live="polite"></p><div class="settings-actions"><button class="secondary sm" id="enrich">✦ Refresh metadata &amp; artwork</button><a class="settings-link" href="https://www.themoviedb.org/settings/api">Get a free API key ↗</a></div></section>
+    <section class="settings-card"><h3>Collections</h3><p>Organize your library into custom collections. Move individual titles from their details page.</p><div class="row settings-collections"><select id="manage-category" aria-label="Choose collection"></select><button class="secondary sm" id="rename">Rename</button><button class="secondary sm" id="new-category">New</button><button class="secondary sm" id="delete-category">Delete</button></div></section>
+    <details class="settings-advanced"><summary>Advanced options <span>Diagnostics, logs, and manual folders</span></summary><div class="settings-advanced-body"><div class="row"><button class="secondary sm" id="manual">Enter folder path</button><button class="secondary sm" id="diagnose">Run diagnostics</button><button class="secondary sm" id="toggle-report">Show log</button></div><pre class="report" id="report" hidden></pre></div></details>
     <section class="settings-card tmdb-credits" id="about-credits" aria-labelledby="credits-title">
       <a class="tmdb-logo-link" href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" aria-label="The Movie Database (TMDB) official website">
         <img class="tmdb-credits-logo" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg" width="105" alt="TMDB official logo" loading="lazy">
@@ -119,6 +147,18 @@ function showPoster(key,img){
  if(posterMissing.has(key)||posterRequested.has(key))return;
  posterRequested.add(key);send('poster',key);
 }
+// Missing artwork is a temporary state, not a permanent error. A poster can
+// finish downloading after its metadata record has already reached the WebView.
+function retryMissingPosters(){posterMissing.clear();posterRequested.clear();render();}
+function posterReady(key){
+ if(!key)return;
+ posterMissing.delete(key);
+ posterRequested.delete(key);
+ // One reply fills every visible card/detail for the same movie or TV show.
+ if(document.querySelectorAll('img[data-poster-key]').length&&Array.from(document.querySelectorAll('img[data-poster-key]')).some(img=>img.dataset.posterKey===key)){
+   posterRequested.add(key);send('poster',key);
+ }
+}
 function posterElement(f,cls){const wrap=el('div',cls||'poster','🎬'),m=meta[f.mediaKey];if(m&&m.posterPath){const img=el('img');img.alt='Poster for '+pretty(f);img.dataset.posterKey=f.mediaKey;img.loading='lazy';img.onerror=()=>{posterMissing.add(f.mediaKey);img.remove();};wrap.append(img);showPoster(f.mediaKey,img);}return wrap;}
 function groupEntries(){
  const query=$('search').value.trim().toLocaleLowerCase('en');
@@ -156,8 +196,8 @@ function renderContinue(){
 function render(){
  renderContinue();
  $('folders').replaceChildren();for(const path of roots){const chip=el('div','folder-chip'),txt=el('span','','▣ '+path),remove=el('button','','×');remove.title='Remove this folder';remove.onclick=()=>send('remove',path);chip.append(txt,remove);$('folders').append(chip);}
- $('errors').textContent=errors.slice(0,5).join('\n');$('progress').textContent=(busy?'Scanning folders…  ':'')+(loadingMeta?'TMDB metadata: ':'')+metaProgress;$('key-state').textContent=hasKey?'API key saved locally':'No API key configured';$('enrich').disabled=busy||loadingMeta||!hasKey;$('refresh-english').disabled=busy||loadingMeta||!hasKey;
- $('tabs').replaceChildren();for(const c of [{id:'all',name:'All'},...categories]){const count=c.id==='all'?items.length:items.filter(x=>x.category===c.id).length;const tab=el('button','tab'+(active===c.id?' active':''));tab.append(el('strong','',categoryName(c)),el('span','',count));tab.onclick=()=>{active=c.id;render();};$('tabs').append(tab);}
+ $('errors').textContent=errors.slice(0,5).join('\n');$('progress').textContent=(busy?'Scanning folders…  ':'')+(loadingMeta?'TMDB metadata: ':'')+metaProgress;$('key-state').textContent=hasKey?'API key saved locally':'No API key configured';$('enrich').disabled=busy||loadingMeta||!hasKey;
+ $('tabs').replaceChildren();for(const c of [{id:'all',name:'All'},...categories]){const matchingItems=c.id==='all'?items:items.filter(x=>x.category===c.id);const count=new Set(matchingItems.map(f=>isSeries(f)?f.mediaKey:f.path)).size;const tab=el('button','tab'+(active===c.id?' active':''));tab.append(el('strong','',categoryName(c)),el('span','',count));tab.onclick=()=>{active=c.id;render();};$('tabs').append(tab);}
  const [cards,filtered]=groupEntries();$('grid').replaceChildren();$('empty').hidden=cards.length>0;$('count').textContent=cards.length+' title'+(cards.length!==1?'s':'');$('clear-filters').hidden=decadeFilter==='all'&&!$('search').value.trim()&&sortOrder==='title-asc';
  for(const f of cards){
  const group=groupFor(f),card=el('article','card'),poster=posterElement(f,'poster'),overlay=el('div','play-overlay'),play=el('button','play-circle','▶');
@@ -252,17 +292,26 @@ function showSeason(data){const f=items.find(x=>x.path===data?.path);if(!f||!isS
 $('sort').onchange=()=>{sortOrder=$('sort').value;render();};
 $('year-filter').onchange=()=>{decadeFilter=$('year-filter').value;render();};
 $('clear-filters').onclick=()=>{$('search').value='';sortOrder='title-asc';$('sort').value=sortOrder;decadeFilter='all';$('year-filter').value='all';render();};
-$('refresh').onclick=()=>send('scan');$('add').onclick=()=>send('add');$('manual').onclick=()=>{const value=prompt('Absolute folder path:');if(value)send('add-path',value.trim());};$('enrich').onclick=()=>send('enrich');$('refresh-english').onclick=()=>send('refresh-english');$('search').oninput=render;
+$('refresh').onclick=()=>{retryMissingPosters();send('scan');};$('add').onclick=()=>send('add');$('manual').onclick=()=>{const value=prompt('Absolute folder path:');if(value)send('add-path',value.trim());};$('enrich').onclick=()=>{retryMissingPosters();send('enrich');};$('search').oninput=render;
 $('save-token').onclick=()=>{const value=$('token').value.trim();if(!value){alert('Enter a TMDB API key.');return;}send('set-key',value);$('token').value='';};$('erase-token').onclick=()=>{if(confirm('Remove the saved API key?'))send('set-key','');};
 $('new-category').onclick=()=>{const name=prompt('New collection:');if(name)send('category-add',name);};$('rename').onclick=()=>{const c=categories.find(x=>x.id===$('manage-category').value);if(c){const name=prompt('Rename collection:',c.name);if(name)send('category-rename',{id:c.id,name});}};$('delete-category').onclick=()=>{const id=$('manage-category').value;if(id==='films'||id==='series')return alert('This built-in collection can be renamed but not deleted.');if(confirm('Delete this collection?'))send('category-delete',id);};
 $('diagnose').onclick=()=>{send('diagnose');$('report').hidden=false;};$('toggle-report').onclick=()=>{$('report').hidden=!$('report').hidden;};$('overlay').onclick=e=>{if(e.target===$('overlay'))closeDetail();};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('overlay').hidden)closeDetail();});
 if(window.iina&&iina.onMessage){
- iina.onMessage('library',data=>{roots=data.roots||[];categories=data.categories||[];items=data.items||[];errors=data.errors||[];report=data.report||[];meta=data.meta||{};manualMeta=data.manualMeta||{};busy=!!data.busy;loadingMeta=!!data.loadingMeta;metaProgress=data.metaProgress||'';hasKey=!!data.hasKey;watch=data.watch||watch;if(active!=='all'&&!categories.some(c=>c.id===active))active='all';updateDecadeOptions();render();if(refreshDetailOnNextLibrary&&openedPath){refreshDetailOnNextLibrary=false;const f=items.find(x=>x.path===openedPath);if(f)openDetail(f);}});
+ iina.onMessage('library',data=>{
+   const incomingMeta=data.meta||{};
+   for(const k of new Set([...Object.keys(meta),...Object.keys(incomingMeta)])){
+     const a=meta[k],b=incomingMeta[k];
+     if((a?.id||'')!==(b?.id||'')||(a?.posterPath||'')!==(b?.posterPath||'')){
+       delete posterData[k];posterMissing.delete(k);posterRequested.delete(k);
+     }
+   }
+   roots=data.roots||[];categories=data.categories||[];items=data.items||[];errors=data.errors||[];report=data.report||[];meta=incomingMeta;manualMeta=data.manualMeta||{};busy=!!data.busy;loadingMeta=!!data.loadingMeta;metaProgress=data.metaProgress||'';hasKey=!!data.hasKey;watch=data.watch||watch;if(active!=='all'&&!categories.some(c=>c.id===active))active='all';updateDecadeOptions();render();if(refreshDetailOnNextLibrary&&openedPath){refreshDetailOnNextLibrary=false;const f=items.find(x=>x.path===openedPath);if(f)openDetail(f);}});
  iina.onMessage('watch',data=>{watch=data&&data.watch||{};renderContinue();});
  iina.onMessage('season',showSeason);
  iina.onMessage('candidates',showCandidates);
  iina.onMessage('association',associationFinished);
  iina.onMessage('local-saved',localFinished);
+ iina.onMessage('poster-ready',data=>{if(data&&data.key)posterReady(data.key);});
  iina.onMessage('poster',data=>{if(!data||!data.key)return;posterRequested.delete(data.key);if(data.missing){posterMissing.add(data.key);return;}if(data.src){posterData[data.key]=data.src;posterMissing.delete(data.key);document.querySelectorAll('img[data-poster-key]').forEach(img=>{if(img.dataset.posterKey===data.key)img.src=data.src;});}});
 }
 render();send('ready');

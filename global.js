@@ -1,4 +1,4 @@
-// IINA Library v0.13 — local library, TMDB, resume playback and privacy-aware cache.
+// IINA Library v0.13.1 — local library, TMDB, resume playback and instant poster updates.
 // Pas de serveur. Le scan /usr/bin/find répertorie également les fichiers iCloud visibles dans Finder.
 const win = iina.standaloneWindow;
 const STORE='@data/library-v03.json', OLD='@data/library-folders.json';
@@ -13,6 +13,7 @@ const TMDB_CACHE_MAX_AGE_MS=180*24*60*60*1000; // Conservative < six calendar mo
 
 let roots=[],categories=DEFAULTS.map(c=>({...c})),overrides={},renames={},items=[],errors=[],report=[],busy=false,loadingMeta=false,metaProgress='';
 let tmdbKey='',meta={},manualMeta={},seasonMeta={},watchState={};
+const posterDownloads=new Map(); // Coalesce in-flight image downloads to avoid stale missing responses.
 function norm(v){if(typeof v==='string')return v.trim();if(v&&typeof v.path==='string')return v.path.trim();return '';}
 function key(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
 function slug(s){return key(s).replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,'-');}
@@ -141,18 +142,35 @@ const data=await tmdbJSON(url);return Array.isArray(data.results)?data.results:[
 function uniqueResults(groups){const seen=new Set(),results=[];for(const group of groups){for(const r of group){if(!Number.isInteger(Number(r.id))||seen.has(r.id))continue;seen.add(r.id);results.push(r);}}return results;}
 
 function posterPathFor(kind,id){return '@data/poster-v06-'+kind+'-'+String(id)+'.jpg';}
-async function downloadPoster(record){if(!record||!record.posterPath)return false;
-const dest=posterPathFor(record.type,record.id);if(iina.file.exists(dest))return true;
-try{await iina.http.download('https://image.tmdb.org/t/p/w342'+record.posterPath,dest);if(!iina.file.exists(dest))throw Error('Downloaded poster not found');log('Poster cached: '+record.title);return true;}
-catch(e){log('Poster unavailable ('+record.title+'): '+String(e));return false;}}
+async function downloadPoster(record){
+ if(!record||!record.posterPath)return false;
+ const dest=posterPathFor(record.type,record.id);
+ if(iina.file.exists(dest))return true;
+ if(posterDownloads.has(dest))return await posterDownloads.get(dest);
+ const pending=(async()=>{
+   try{
+     await iina.http.download('https://image.tmdb.org/t/p/w342'+record.posterPath,dest);
+     if(!iina.file.exists(dest))throw Error('Downloaded poster not found');
+     log('Poster cached: '+record.title);
+     return true;
+   }catch(e){log('Poster unavailable ('+record.title+'): '+String(e));return false;}
+ })();
+ posterDownloads.set(dest,pending);
+ try{return await pending;}finally{posterDownloads.delete(dest);}
+}
 function recordFromTMDB(type,found){return {id:found.id,type,title:found.title||found.name||found.original_title||found.original_name||'Sans titre',year:String(found.release_date||found.first_air_date||'').slice(0,4),overview:found.overview||'',rating:typeof found.vote_average==='number'?found.vote_average:null,posterPath:found.poster_path||'',backdropPath:found.backdrop_path||'',cachedAt:Date.now()};}
-async function cacheRecord(k,record){meta[k]=record;saveMeta();send();await downloadPoster(record);send();}
+async function cacheRecord(k,record){
+ meta[k]=record;saveMeta();send();
+ const available=await downloadPoster(record);
+ if(available)win.postMessage('poster-ready',{key:k});
+ send();
+}
 function searchVariations(f){const queries=[];
 for(const hint of [f.title,...(f.searchHints||[])]){if(!hint||hint.includes('à identifier'))continue;let cleaned=String(hint).trim();if(!queries.includes(cleaned))queries.push(cleaned);
 // A first film can have a folder title ending in " 1" whereas TMDB omits this index.
 if(f.category==='films'&&/\s+1$/.test(cleaned)){const stripped=cleaned.replace(/\s+1$/,'');if(stripped&&!queries.includes(stripped))queries.push(stripped);}}
 return queries.slice(0,4);}
-async function fetchOne(f){const k=f.mediaKey;if(meta[k]&&meta[k].id){await downloadPoster(meta[k]);return;}
+async function fetchOne(f){const k=f.mediaKey;if(meta[k]&&meta[k].id){const available=await downloadPoster(meta[k]);if(available)win.postMessage('poster-ready',{key:k});return;}
 const type=f.category==='series'?'tv':'movie',queries=searchVariations(f);if(!queries.length)return;
 for(const query of queries){const groups=[await searchTMDB(type,query,f.year,'en-US')];let found=bestResult(groups[0],query,f.year);
 if(!found){groups.push(await searchTMDB(type,query,'','fr-FR'));found=bestResult(uniqueResults(groups),query,f.year);}
@@ -200,7 +218,15 @@ async function refreshEnglish(){
 // Encode local JPEG binary as a data URL only when its card becomes visible.
 const B64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 function toBase64(bytes){const chunks=[];let part='';for(let i=0;i<bytes.length;i+=3){let a=bytes[i],hasB=i+1<bytes.length,hasC=i+2<bytes.length,b=hasB?bytes[i+1]:0,c=hasC?bytes[i+2]:0;part+=B64[a>>2]+B64[((a&3)<<4)|(b>>4)]+(hasB?B64[((b&15)<<2)|(c>>6)]:'=')+(hasC?B64[c&63]:'=');if(part.length>8192){chunks.push(part);part='';}}chunks.push(part);return chunks.join('');}
-function sendPoster(k){const m=meta[k];if(!m||!m.id||!m.posterPath)return;let dest=posterPathFor(m.type,m.id);try{if(!iina.file.exists(dest)){win.postMessage('poster',{key:k,missing:true});return;}const h=iina.file.handle(dest,'read');let data;try{data=h.readToEnd();}finally{h.close();}if(data.length>1400000)return;win.postMessage('poster',{key:k,src:'data:image/jpeg;base64,'+toBase64(data)});}catch(e){log('Affiche '+k+' : '+String(e));}}
+function sendPoster(k){
+ const m=meta[k];if(!m||!m.id||!m.posterPath)return;
+ let dest=posterPathFor(m.type,m.id);
+ try{if(!iina.file.exists(dest)){
+   // Wait for an active download; returning "missing" now would leave a blank card until restart.
+   const pending=posterDownloads.get(dest);
+   if(pending){pending.then(()=>sendPoster(k));return;}
+   win.postMessage('poster',{key:k,missing:true});return;
+ }const h=iina.file.handle(dest,'read');let data;try{data=h.readToEnd();}finally{h.close();}if(data.length>1400000)return;win.postMessage('poster',{key:k,src:'data:image/jpeg;base64,'+toBase64(data)});}catch(e){log('Affiche '+k+' : '+String(e));}}
 // Playback history is keyed by the exact path, so episodes never overwrite one another.
 // Updates from native playback are throttled in main.js to prevent excessive disk writes.
 function validWatch(path){return items.some(f=>f.path===path);}
@@ -258,7 +284,12 @@ function requestHiddenTitleBar(){
   }
 }
 win.setFrame(1280,800);win.loadFile('library.html');
-win.onMessage('ready',()=>{requestHiddenTitleBar();send();scan();});win.onMessage('scan',scan);
+win.onMessage('ready',()=>{requestHiddenTitleBar();send();scan();});
+win.onMessage('scan',async()=>{
+ await scan();
+ // Refresh must also resolve missing metadata/posters when TMDB is configured.
+ if(tmdbKey&&items.length)await enrich();
+});
 iina.global.onMessage('watch-progress',updateWatch);
 win.onMessage('watch-action',setWatch);
 win.onMessage('add',()=>{try{const raw=iina.utils.chooseFile('Choose a media folder (e.g., infuse)' ,{chooseDir:true});if(raw&&typeof raw.then==='function')raw.then(addPath).catch(e=>{fail('Folder picker: '+String(e));send();});else addPath(raw);}catch(e){fail('Folder picker: '+String(e));send();}});

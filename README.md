@@ -6,7 +6,7 @@
 
 An open-source media library plugin for [IINA](https://iina.io/) on macOS. Browse your local collection through a clean, native-feeling interface, discover movie and episode details, and pick up exactly where you left off — with IINA handling playback.
 
-![Version](https://img.shields.io/badge/version-0.13.0-9F92F7) ![Platform](https://img.shields.io/badge/platform-macOS-222222) ![License](https://img.shields.io/badge/license-MIT-555555) ![Status](https://img.shields.io/badge/status-public%20beta-4A4458)
+![Version](https://img.shields.io/badge/version-0.13.1-9F92F7) ![Platform](https://img.shields.io/badge/platform-macOS-222222) ![License](https://img.shields.io/badge/license-MIT-555555) ![Status](https://img.shields.io/badge/status-public%20beta-4A4458)
 
 [Installation](#installation) · [Features](#features) · [Getting started](#getting-started) · [FAQ](#faq) · [Report an issue](https://github.com/monroedb/IINA-library/issues)
 
